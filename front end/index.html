@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手势识别系统 - 实验平台 v3.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>手势识别系统</h1>
+            <p class="subtitle">实时手势检测与数据采集 (Computation Partitioning Experiment)</p>
+        </header>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="camera-container">
+                <div class="video-box">
+                    <h2>原始摄像头</h2>
+                    <!-- 本地预览保持清晰 -->
+                    <video id="video" autoplay playsinline></video>
+                </div>
+                <div class="video-box">
+                    <h2>后端处理结果</h2>
+                    <img id="processed-image" src="" alt="等待开始...">
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="info-item fps-item">
+                    <span class="info-label">帧率 (FPS):</span>
+                    <span id="fps-display" class="info-value">--</span>
+                </div>
+                <div class="info-item latency-item">
+                    <span class="info-label">网络延迟(ms):</span>
+                    <span id="latency-display" class="info-value">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">左手数字:</span>
+                    <span id="left-hand-digit" class="info-value">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">右手数字:</span>
+                    <span id="right-hand-digit" class="info-value">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制面板 -->
+        <div class="controls-panel">
+            <!-- 第一行：实验设置 -->
+            <div class="experiment-controls">
+                <div class="control-group">
+                    <label for="sessionId">会话ID:</label>
+                    <input type="text" id="sessionId" placeholder="例如：user1-test1" value="test01">
+                </div>
+
+                <!-- 已还原：你之前的网络类型选项 -->
+                <div class="control-group">
+                    <label for="networkType">网络类型:</label>
+                    <select id="networkType">
+                        <option value="wifi">Wi-Fi</option>
+                        <option value="4g">4G</option>
+                        <option value="5g">5G</option>
+                        <option value="ethernet">以太网</option>
+                    </select>
+                </div>
+
+                <!-- 新增：发送分辨率选择 (用于做性能对比实验) -->
+                <div class="control-group">
+                    <label for="resolutionSelect">发送分辨率:</label>
+                    <select id="resolutionSelect">
+                        <option value="320x240">320 x 240 (极速)</option>
+                        <option value="640x480" selected>640 x 480 (标准)</option>
+                        <option value="800x600">800 x 600 (高清)</option>
+                        <option value="1280x720">1280 x 720 (超清-易卡顿)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 第二行：按钮操作 -->
+            <div class="button-row">
+                <div class="main-controls">
+                     <button id="startButton" class="btn btn-start">开始</button>
+                     <button id="stopButton" class="btn btn-stop" style="display: none;">停止</button>
+                </div>
+                <div class="data-buttons">
+                    <button id="exportData" class="btn btn-export">导出CSV</button>
+                    <button id="resetData" class="btn btn-reset">重置数据</button>
+                </div>
+            </div>
+        </div>
+    </div> <!-- .container 结束 -->
+
+    <!-- 隐藏的Canvas，用于后台压缩图片尺寸 -->
+    <canvas id="canvas" style="display:none;"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
