@@ -9,12 +9,6 @@ import base64
 import os
 import time
 
-# ==========================================
-# 🎮 实验控制台
-# ==========================================
-SIMULATE_DELAY = 0
-# ==========================================
-
 app = FastAPI()
 
 # 1. 允许跨域
@@ -60,14 +54,8 @@ def count_fingers(hand_landmarks, handedness):
     return str(fingers.count(1))
 
 
-# ============================================================
-# 🌟 核心修复：API 接口定义必须放在 StaticFiles 挂载之前！！！
-# ============================================================
-
-@app.post("/recognize")  # <--- 先定义这个，服务器就会先匹配这个
+@app.post("/recognize")
 async def recognize(file: UploadFile = File(...)):
-    if SIMULATE_DELAY > 0:
-        time.sleep(SIMULATE_DELAY)
 
     try:
         contents = await file.read()
@@ -109,9 +97,6 @@ async def recognize(file: UploadFile = File(...)):
         return {"error": str(e)}
 
 
-# ============================================================
-# 🌟 核心修复：挂载网页必须放在最后！！！作为“兜底”选项
-# ============================================================
 base_dir = os.path.dirname(os.path.abspath(__file__))
 front_end_dir = os.path.join(base_dir, "front end")
 
